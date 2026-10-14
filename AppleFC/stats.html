@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Apple Football Hub - Leaderboards & Stats</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #000000;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.12);
+      --text-main: #f5f5f7;
+      --text-muted: #86868b;
+      --accent-color: #2997ff;
+      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      -webkit-font-smoothing: antialiased;
+      padding-bottom: 60px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .nav-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px;
+    }
+
+    .brand-logo {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 24px;
+    }
+
+    .nav-item {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.2s ease;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: var(--text-main);
+    }
+
+    .hero-section {
+      text-align: center;
+      padding: 60px 20px 40px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--accent-color);
+      letter-spacing: 0.1em;
+      background: rgba(41, 151, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: 20px;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .hero-section h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .hero-section p {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      line-height: 1.5;
+    }
+
+    .hub-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .tab-section {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .tabs {
+      background: rgba(255, 255, 255, 0.08);
+      padding: 4px;
+      border-radius: 30px;
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 10px 20px;
+      border-radius: 20px;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+    }
+
+    .tab-btn.active {
+      background: var(--text-main);
+      color: #000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .stats-card-wrapper {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 24px;
+      padding: 30px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .card-header h2 {
+      font-size: 1.6rem;
+      font-weight: 600;
+    }
+
+    .card-header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .leaderboard-table th {
+      text-align: left;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .leaderboard-table td {
+      padding: 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.95rem;
+    }
+
+    .leaderboard-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .leaderboard-table tr:hover td {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .rank-cell {
+      font-weight: 700;
+      width: 50px;
+      color: var(--text-muted);
+    }
+
+    .rank-1 { color: #ffd700; }
+    .rank-2 { color: #c0c0c0; }
+    .rank-3 { color: #cd7f32; }
+
+    .player-cell {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .player-name-text {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .player-club-text {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .metric-cell {
+      text-align: right;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent-color);
+    }
+
+    /* Admin Add Stat Form */
+    .admin-section {
+      margin-top: 35px;
+    }
+
+    .admin-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 20px;
+      padding: 24px;
+    }
+
+    .admin-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 6px;
+      text-align: center;
+    }
+
+    .admin-card .hint {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 14px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .form-group input, .form-group select {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      padding: 10px 14px;
+      color: var(--text-main);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--accent-color);
+    }
+
+    .submit-btn {
+      grid-column: 1 / -1;
+      background: var(--text-main);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 12px;
+      font-family: inherit;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+
+    .submit-btn:hover {
+      opacity: 0.9;
+    }
+
+    .submit-btn:active {
+      transform: scale(0.99);
+    }
+
+    footer {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      margin-top: 50px;
+    }
+    .logo {
+      height: 70px;
+      justify-content: center;
+      padding-left: 125px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <img src="image/logo.png" alt="" class="logo"><a href="index.html" class="brand-logo">Football Hub</a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="nav-item">Overview</a></li>
+        <li><a href="squads.html" class="nav-item">Squads</a></li>
+        <li><a href="stats.html" class="nav-item active">Stats</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero-section">
+    <span class="badge">Season 2026/27</span>
+    <h1>Leaderboards & Stats</h1>
+    <p>Track top goalscorers, playmakers, and match stats across all major European competitions.</p>
+  </header>
+
+  <main class="hub-container">
+
+    <section class="tab-section">
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchCategory('scorers', this)">Top Scorers</button>
+        <button class="tab-btn" onclick="switchCategory('assisters', this)">Top Assisters</button>
+        <button class="tab-btn" onclick="switchCategory('cleanSheets', this)">Clean Sheets</button>
+        <button class="tab-btn" onclick="switchCategory('ballonDor', this)">Ballon d'Or Top 10</button>
+      </div>
+    </section>
+
+    <section class="stats-card-wrapper">
+      <div class="card-header">
+        <h2 id="category-title">Top Goalscorers</h2>
+        <p id="category-sub">European Top Leagues • 2026/27 Season</p>
+      </div>
+
+      <table class="leaderboard-table">
+        <thead>
+          <tr>
+            <th class="rank-cell">#</th>
+            <th>Player</th>
+            <th style="text-align: right;" id="metric-header">Goals</th>
+          </tr>
+        </thead>
+        <tbody id="stats-list">
+          <!-- Rows render dynamically -->
+        </tbody>
+      </table>
+    </section>
+
+    <section class="admin-section">
+      <div class="admin-card">
+        <h3>Add New Record</h3>
+        <p class="hint">Insert a player's latest stat into the leaderboard list.</p>
+        
+        <form id="add-stat-form" onsubmit="handleAddStat(event)">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="category-select">Category</label>
+              <select id="category-select" required>
+                <option value="scorers">Top Scorers</option>
+                <option value="assisters">Top Assisters</option>
+                <option value="cleanSheets">Clean Sheets</option>
+                <option value="ballonDor">Ballon d'Or 2026</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="player-name">Player Name</label>
+              <input type="text" id="player-name" placeholder="e.g. Erling Haaland" required>
+            </div>
+
+            <div class="form-group">
+              <label for="player-club">Club</label>
+              <input type="text" id="player-club" placeholder="e.g. Manchester City" required>
+            </div>
+
+            <div class="form-group">
+              <label for="stat-val">Stat Value / Score</label>
+              <input type="number" id="stat-val" min="0" placeholder="e.g. 98" required>
+            </div>
+
+            <button type="submit" class="submit-btn">Add to Leaderboard</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>Apple Football Hub &copy; 2026/27. Designed with precision and minimalism.</p>
+  </footer>
+
+  <script>
+    const statsData = {
+      scorers: {
+        title: "Top Goalscorers",
+        subtitle: "European Top Leagues • 2026/27 Season",
+        metricName: "Goals",
+        list: [
+          { name: "Raphinha", club: "Barcelona", val: 14 },
+          { name: "Mbappe", club: "Real Madrid", val: 8 },
+          { name: "Michael Olise", club: "Bayern Munich", val: 8 },
+          { name: "Haaland", club: "Manchester City", val: 7 },
+          { name: "Harry Kane", club: "Bayern Munich", val: 6 },
+        ]
+      },
+      assisters: {
+        title: "Top Assisters",
+        subtitle: "European Top Leagues • 2026/27 Season",
+        metricName: "Assists",
+        list: [
+          { name: "Anthony Gordon", club: "Barcelona", val: 5 },
+          { name: "Javi Hernández", club: "Espanyol", val: 5 },
+          { name: "Lamine Yamal", club: "Barcelona", val: 4 },
+          { name: "Pascal Groß", club: "Brighton", val: 4 },
+          { name: "Marco Grüll", club: "Werder Bremen", val: 4 }
+        ]
+      },
+      cleanSheets: {
+        title: "Clean Sheets",
+        subtitle: "European Top Leagues • 2026/27 Season",
+        metricName: "Shutouts",
+        list: [
+          { name: "Jordan Pickford", club: "Everton", val: 3 },
+          { name: "Alisson", club: "Liverpool", val: 3 },
+          { name: "Konstantinos Tzolakis", club: "Hull City", val: 3 },
+          { name: "David Raya", club: "Arsenal", val: 3 }
+        ]
+      },
+      ballonDor: {
+        title: "2026 Ballon d'Or Power Rankings",
+        subtitle: "Top Candidates • 2026/27 Season",
+        metricName: "Rating",
+        list: [
+          { name: "Lamine Yamal", club: "Barcelona", val: 99 },
+          { name: "Harry Kane", club: "Bayern Munich", val: 97 },
+          { name: "Rodri", club: "Barcelona", val: 91 },
+          { name: "Kylian Mbappé", club: "Real Madrid", val: 94 },
+          { name: "Raphina", club: "Barcelona", val: 92 },
+          { name: "Ousmane Dembélé", club: "Paris Saint-Germain", val: 90 },
+          { name: "Michael Olise", club: "Bayern Munich", val: 88 },
+          { name: "Erling Haaland", club: "Manchester City", val: 87 },
+          { name: "Kvaratskhelia", club: "Paris Saint-Germain", val: 92 },
+          { name: "Vinícius Júnior", club: "Real Madrid", val: 84 }
+        ]
+      }
+    };
+
+    let activeCategory = 'scorers';
+
+    function renderLeaderboard(categoryKey) {
+      const category = statsData[categoryKey];
+      
+      document.getElementById('category-title').textContent = category.title;
+      document.getElementById('category-sub').textContent = category.subtitle;
+      document.getElementById('metric-header').textContent = category.metricName;
+
+      // Sort by value descending
+      category.list.sort((a, b) => b.val - a.val);
+
+      const tbody = document.getElementById('stats-list');
+      tbody.innerHTML = '';
+
+      category.list.forEach((item, index) => {
+        const rank = index + 1;
+        const rankClass = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
+        
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td class="rank-cell ${rankClass}">${rank}</td>
+          <td>
+            <div class="player-cell">
+              <span class="player-name-text">${item.name}</span>
+              <span class="player-club-text">${item.club}</span>
+            </div>
+          </td>
+          <td class="metric-cell">${item.val}</td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+
+    function switchCategory(key, element) {
+      activeCategory = key;
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+      renderLeaderboard(key);
+    }
+
+    function handleAddStat(e) {
+      e.preventDefault();
+
+      const catSelect = document.getElementById('category-select').value;
+      const nameInput = document.getElementById('player-name');
+      const clubInput = document.getElementById('player-club');
+      const valInput = document.getElementById('stat-val');
+
+      const newItem = {
+        name: nameInput.value.trim(),
+        club: clubInput.value.trim(),
+        val: parseInt(valInput.value, 10)
+      };
+
+      // Add to data structure
+      statsData[catSelect].list.push(newItem);
+
+      // If added to current category, re-render leaderboard
+      if (catSelect === activeCategory) {
+        renderLeaderboard(activeCategory);
+      } else {
+        // Switch tab to the category where stat was added
+        const buttons = document.querySelectorAll('.tab-btn');
+        const categories = ['scorers', 'assisters', 'cleanSheets', 'ballonDor'];
+        const targetIndex = categories.indexOf(catSelect);
+        if (targetIndex !== -1) {
+          switchCategory(catSelect, buttons[targetIndex]);
+        }
+      }
+
+      // Reset form
+      nameInput.value = '';
+      clubInput.value = '';
+      valInput.value = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderLeaderboard('scorers');
+    });
+  </script>
+</body>
+</html>
