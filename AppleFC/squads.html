@@ -3,390 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Apple Football Hub - Squads</title>
+  <title>Apples Football Hub - Squads</title>
+  <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAsUlEQVR4nOyXOw5AQBBAR+ISNG7gIBKdQuUCCr1bKBxBotC5gSO4AQW1E1BJEEMy+y3mdZvMJm9nMruzLhjGBcOQBcoo2K/rJgtf46a0d0CFgCxYQJrAX62VC1BBrcMl3782jn7tiMSf2JeBv5OI8syEvV1QeMltXa0dUNiGGUgCumABVIBac2kCumABFmAB8jyAgd392MRkbwZOsEw83/WgjV/jrP8XkCZZmXAbGhc4AAAA//8jYF61AAAABklEQVQDAFMBKhgSH/VrAAAAAElFTkSuQmCC">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-color: #000000;
-      --card-bg: rgba(255, 255, 255, 0.05);
-      --card-border: rgba(255, 255, 255, 0.12);
-      --text-main: #f5f5f7;
-      --text-muted: #86868b;
-      --accent-color: #2997ff;
-      --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: var(--bg-color);
-      color: var(--text-main);
-      font-family: var(--font-family);
-      -webkit-font-smoothing: antialiased;
-      padding-bottom: 60px;
-    }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-bottom: 1px solid var(--card-border);
-    }
-
-    .nav-container {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 14px 20px;
-    }
-
-    .brand-logo {
-      color: var(--text-main);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      letter-spacing: -0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      list-style: none;
-      gap: 24px;
-    }
-
-    .nav-item {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.2s ease;
-    }
-
-    .nav-item:hover, .nav-item.active {
-      color: var(--text-main);
-    }
-
-    .hero-section {
-      text-align: center;
-      padding: 60px 20px 40px;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      color: var(--accent-color);
-      letter-spacing: 0.1em;
-      background: rgba(41, 151, 255, 0.1);
-      padding: 6px 14px;
-      border-radius: 20px;
-      display: inline-block;
-      margin-bottom: 16px;
-    }
-
-    .hero-section h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: -0.03em;
-      margin-bottom: 12px;
-    }
-
-    .hero-section p {
-      color: var(--text-muted);
-      font-size: 1.15rem;
-      line-height: 1.5;
-    }
-
-    .hub-container {
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-
-    .tab-section {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 30px;
-    }
-
-    .tabs {
-      background: rgba(255, 255, 255, 0.08);
-      padding: 4px;
-      border-radius: 30px;
-      display: flex;
-      gap: 4px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .tab-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 10px 18px;
-      border-radius: 20px;
-      font-family: inherit;
-      font-size: 0.88rem;
-      font-weight: 500;
-      cursor: pointer;
-      transition: all 0.25s ease;
-    }
-
-    .tab-btn.active {
-      background: var(--text-main);
-      color: #000;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    }
-
-    .pitch-card-wrapper {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 24px;
-      padding: 30px;
-      backdrop-filter: blur(10px);
-    }
-
-    .card-header {
-      text-align: center;
-      margin-bottom: 24px;
-    }
-
-    .card-header h2 {
-      font-size: 1.6rem;
-      font-weight: 600;
-    }
-
-    .card-header p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
-
-    .pitch {
-      position: relative;
-      background: linear-gradient(180deg, rgba(20, 35, 25, 0.6) 0%, rgba(10, 20, 15, 0.8) 100%);
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 16px;
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      gap: 36px;
-      overflow: hidden;
-    }
-
-    .pitch-line.half-line {
-      position: absolute;
-      top: 50%;
-      left: 0;
-      right: 0;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.1);
-    }
-
-    .pitch-line.center-circle {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 120px;
-      height: 120px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 50%;
-    }
-
-    .pitch-row {
-      display: flex;
-      justify-content: space-around;
-      position: relative;
-      z-index: 2;
-    }
-
-    .player-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
-
-    .player-card:hover {
-      transform: translateY(-4px) scale(1.05);
-    }
-
-    .player-badge {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.12);
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: var(--text-main);
-      backdrop-filter: blur(5px);
-    }
-
-    .player-name {
-      margin-top: 6px;
-      font-size: 0.78rem;
-      font-weight: 500;
-      background: rgba(0, 0, 0, 0.6);
-      padding: 2px 8px;
-      border-radius: 10px;
-      text-align: center;
-    }
-
-    .subs-section {
-      margin-top: 30px;
-      padding-top: 24px;
-      border-top: 1px solid var(--card-border);
-    }
-
-    .subs-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      text-align: center;
-      margin-bottom: 16px;
-      color: var(--text-main);
-    }
-
-    .subs-grid {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .sub-card {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
-      padding: 10px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 140px;
-      cursor: pointer;
-      transition: background 0.2s ease, border-color 0.2s ease;
-    }
-
-    .sub-card:hover {
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    .sub-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 0.75rem;
-      color: var(--accent-color);
-    }
-
-    .sub-info {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .sub-name {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-main);
-    }
-
-    .sub-pos {
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    .inspector-section {
-      margin-top: 30px;
-    }
-
-    .glass-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 20px;
-      padding: 24px;
-      text-align: center;
-    }
-
-    .glass-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 6px;
-    }
-
-    .hint {
-      color: var(--text-muted);
-      font-size: 0.85rem;
-    }
-
-    .stats-grid {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 16px;
-    }
-
-    .stat-box {
-      background: rgba(255, 255, 255, 0.04);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      padding: 12px 20px;
-      border-radius: 12px;
-      min-width: 100px;
-    }
-
-    .stat-label {
-      display: block;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .stat-val {
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--accent-color);
-    }
-
-    footer {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 0.8rem;
-      margin-top: 50px;
-    }
-      .logo {
-    height: 70px;
-    justify-content: center;
-    padding-left: 125px;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <nav class="navbar">
     <div class="nav-container">
-      <img src="image/logo.png" alt="" class="logo"><a href="index.html" class="brand-logo">Football Hub</a>
+      <a href="index.html" class="brand">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAsUlEQVR4nOyXOw5AQBBAR+ISNG7gIBKdQuUCCr1bKBxBotC5gSO4AQW1E1BJEEMy+y3mdZvMJm9nMruzLhjGBcOQBcoo2K/rJgtf46a0d0CFgCxYQJrAX62VC1BBrcMl3782jn7tiMSf2JeBv5OI8syEvV1QeMltXa0dUNiGGUgCumABVIBac2kCumABFmAB8jyAgd392MRkbwZOsEw83/WgjV/jrP8XkCZZmXAbGhc4AAAA//8jYF61AAAABklEQVQDAFMBKhgSH/VrAAAAAElFTkSuQmCC" alt="" class="logo">
+        <span>Football Hub</span>
+      </a>
       <ul class="nav-links">
         <li><a href="index.html" class="nav-item">Overview</a></li>
         <li><a href="squads.html" class="nav-item active">Squads</a></li>
@@ -397,7 +28,7 @@
 
   <header class="hero-section">
     <span class="badge">Season 2026/27</span>
-    <h1>Club Squads & Lineups</h1>
+    <h1>Club Squads &amp; Lineups</h1>
     <p>Explore starting XI line-ups and tactical substitutes across European powerhouses.</p>
   </header>
 
@@ -422,26 +53,24 @@
       <div class="pitch">
         <div class="pitch-line center-circle"></div>
         <div class="pitch-line half-line"></div>
-        
-        <div class="pitch-row forwards" id="row-forwards"></div>
-        <div class="pitch-row midfielders" id="row-midfielders"></div>
-        <div class="pitch-row defenders" id="row-defenders"></div>
-        <div class="pitch-row goalkeeper" id="row-gk"></div>
+
+        <div class="pitch-row" id="row-forwards"></div>
+        <div class="pitch-row" id="row-midfielders"></div>
+        <div class="pitch-row" id="row-defenders"></div>
+        <div class="pitch-row" id="row-gk"></div>
       </div>
 
       <div class="subs-section">
         <h3 class="subs-title">Substitutes Bench</h3>
-        <div class="subs-grid" id="subs-container">
-          <!-- Dynamically populated substitutes -->
-        </div>
+        <div class="subs-grid" id="subs-container"></div>
       </div>
     </section>
 
     <section class="inspector-section">
-      <div class="glass-card" id="inspector-card">
+      <div class="glass-card">
         <h3>Player Spotlight</h3>
-        <p class="hint">Click any starting XI or bench player to inspect details.</p>
-        <div class="player-details" id="player-details" style="display: none;">
+        <p class="hint" id="spotlight-hint">Click any starting XI or bench player to inspect details.</p>
+        <div id="player-details" hidden>
           <h2 id="spotlight-name">Player Name</h2>
           <div class="stats-grid">
             <div class="stat-box">
@@ -464,7 +93,7 @@
   </main>
 
   <footer>
-    <p>Apple Football Hub &copy; 2026/27. Designed with precision and minimalism.</p>
+    <p>&copy; 2026 Made By Apple</p>
   </footer>
 
   <script>
@@ -606,7 +235,7 @@
 
     function renderTeamSquad(key) {
       const team = teamSquads[key];
-      
+
       document.getElementById('team-title').textContent = team.title;
       document.getElementById('team-sub').textContent = team.subtitle;
 
@@ -671,9 +300,8 @@
     }
 
     function selectPlayer(player) {
-      document.querySelector('.hint').style.display = 'none';
-      const details = document.getElementById('player-details');
-      details.style.display = 'block';
+      document.getElementById('spotlight-hint').hidden = true;
+      document.getElementById('player-details').hidden = false;
 
       document.getElementById('spotlight-name').textContent = player.name;
       document.getElementById('spotlight-pos').textContent = player.pos;
